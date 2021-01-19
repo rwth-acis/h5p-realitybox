@@ -1,0 +1,36 @@
+{
+  "title": "RealityBox",
+  "description": "Embed interactive virtual reality viewer",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 1,
+  "author": "Johannes Ballmann",
+  "license": "MIT",
+  "machineName": "H5P.RealityBox",
+  "coreApi": {
+    "majorVersion": 1,
+    "minorVersion": 0
+  },
+  "embedTypes": ["div"],
+  "preloadedJs": [
+    { "path": "dist/main.js" }
+  ],
+  "preloadedCss": [
+    { "path": "dist/main.css" }
+  ],
+  "preloadedDependencies": [
+     {
+       "machineName": "H5P.BabylonBox",
+       "majorVersion": 1,
+       "minorVersion": 0
+     }
+  ],
+  "editorDependencies": [
+    {
+      "machineName": "H5PEditor.Wizard",
+      "majorVersion": 1,
+      "minorVersion": 2
+    }
+  ]
+}

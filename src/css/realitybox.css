@@ -1,0 +1,276 @@
+.h5p-realitybox {
+  box-sizing: border-box;
+}
+
+/* styling of preview box */
+
+.h5p-realitybox .h5p-realitybox--preview {
+  width: 100%;
+  max-width: 450px;
+  height: 300px;
+  max-height: 90%;
+  position: relative;
+  margin: 1rem auto;
+}
+
+.h5p-realitybox .h5p-realitybox--preview .renderCanvas {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.h5p-realitybox .h5p-realitybox--preview .preview--cta {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0 1rem 1rem 1rem;
+  width: calc(100% - 2rem);
+  background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2));
+}
+
+.button.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  color: #fff;
+  border: none;
+  background-color: #2880d0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+.button.cta:hover {
+  cursor: pointer;
+  background-color: #2778c1;
+}
+
+.h5p-realitybox .h5p-realitybox--preview .preview--vr-badge {
+  display: flex;
+  font-size: 15px;
+  align-items: center;
+  height: 25px;
+  width: 30px;
+  border-radius: 2px;
+  background-color: #fff;
+  justify-content: center;
+  color: grey;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* styling of viewer */
+
+.h5p-realitybox .h5p-realitybox--modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 0.75rem;
+}
+
+.h5p-realitybox .h5p-realitybox--modal .viewer,
+.h5p-realitybox .viewer .viewer--content,
+.h5p-realitybox .viewer .viewer--content .renderCanvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.h5p-realitybox .viewer .viewer--header {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  align-items: stretch;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0 0 5px 5px;
+  height: 40px;
+  color: #fff;
+  z-index: 3;
+}
+
+.h5p-realitybox .viewer .viewer--header .item,
+.h5p-realitybox .viewer .viewer--aside .aside--header .item  {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.h5p-realitybox .viewer .viewer--header .item .button {
+  background: none;
+  border: none;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30.5px;
+  padding: 0 0.75rem;
+  border-radius: 3px;
+}
+
+.h5p-realitybox .viewer .viewer--header .item .button.icon {
+  width: 30.5px;
+  padding: 0;
+}
+
+.h5p-realitybox .viewer .viewer--header .item .button.dark {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.h5p-realitybox .viewer .viewer--header .item .button:hover,
+.h5p-realitybox .viewer .viewer--header .item .button:focus {
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.h5p-realitybox .viewer .viewer--header .item .button:focus {
+    box-shadow: 0 0 0 2px #fff, 0 0 3px 5px rgba(0, 0, 0, 0.5);
+    outline: 2px dotted transparent;
+    outline-offset: 2px;
+}
+
+.h5p-realitybox .viewer .viewer--header .item.title,
+.h5p-realitybox .viewer .viewer--aside .aside--header .item.title {
+  flex: 1 1 auto;
+  font-weight: 600;
+}
+
+.h5p-realitybox .viewer .viewer--content {
+  z-index: 1;
+}
+
+.h5p-realitybox .viewer .viewer--aside {
+  position: absolute;
+  top: 0;
+  right: calc(-1 * 100% + 2rem);
+  width: calc(100% - 2rem);
+  max-width: 450px;
+  height: 100%;
+  background-color: #fff;
+  padding-top: 40px;
+  z-index: 2;
+}
+
+.h5p-realitybox .viewer .viewer--aside.isOpen {
+  box-shadow: -8px 0 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+.h5p-realitybox .viewer .viewer--aside .aside--header {
+  height: 40px;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: stretch;
+}
+
+.h5p-realitybox .viewer .viewer--aside .aside--header .item {
+  padding: 0;
+}
+
+.h5p-realitybox .viewer .viewer--aside .aside--header .item.title {
+  font-weight: normal;
+}
+
+.h5p-realitybox .viewer .viewer--aside .aside--header .item  button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  background: none;
+  border: none;
+  border-radius: 50%;
+}
+
+.h5p-realitybox .viewer .viewer--aside .aside--header .item  button:hover,
+.h5p-realitybox .viewer .viewer--aside .aside--header .item  button:focus {
+  background-color: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.h5p-realitybox .viewer .viewer--aside .aside--content {
+  height: calc(100% - 41px);
+  padding: 0.5rem 1.25rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.h5p-realitybox .viewer kbd {
+  margin: 0 0.1em;
+  padding: 0.1em 0.6em;
+  border-radius: 3px;
+  border: 1px solid rgb(204, 204, 204);
+  color: rgb(51, 51, 51);
+  line-height: 1.4;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 10px;
+  display: inline-block;
+  box-shadow: 0px 1px 0px rgba(0,0,0,0.2), inset 0px 0px 0px 2px #ffffff;
+  background-color: rgb(247, 247, 247);
+  -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset;
+  -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  text-shadow: 0 1px 0 #fff;
+}
+
+/* styling of tooltip inside of viewer */
+.h5p-realitybox .viewer .tooltip--info .tippy-content {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.h5p-realitybox .viewer .tooltip--info .tippy-content div {
+  transform: translateY(0.5px);
+}
+
+.h5p-realitybox .viewer .tooltip--info .tippy-content div:last-child {
+  margin-left: 0.5rem;
+  transform: none;
+}
+
+.h5p-realitybox .viewer .tooltip--cta .tippy-content div {
+  margin-bottom: 0.5rem;
+}
+
+/* tippy.js dark theme */
+
+.tippy-box[data-theme~='dark'] {
+  background-color: #000;
+  color: #fff;
+}
+.tippy-box[data-theme~='dark'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #000;
+}
+.tippy-box[data-theme~='dark'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #000;
+}
+.tippy-box[data-theme~='dark'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #000;
+}
+.tippy-box[data-theme~='dark'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #000;
+}
+
+/* styling of detail section */
+
+.h5p-realitybox .welcome {
+  padding: 0 1rem 1rem 1rem;
+  text-align: justify;
+}
