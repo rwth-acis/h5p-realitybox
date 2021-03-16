@@ -2,6 +2,15 @@ import tippy, {createSingleton} from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
+/**
+ * HeaderItems object
+ * @type {Object}
+ * @property {string} headerItems.type - Type of item (button or title)
+ * @property {string} headerItems.addClass - CSS classes that should be added to item
+ * @property {string} headerItems.tooltip - Text of related tooltip
+ * @property {string[]} headerItems.kbd - Associated key board shortcut
+ * @property {string} headerItems.content - HTML content of item
+ */
 const headerItems = [
   {
     type: 'button',
@@ -39,7 +48,7 @@ const headerItems = [
     hide_tooltip: true,
     tooltip: 'Open on VR device',
     kbd: ['Ctrl', 'D'],
-    content: 'VR'
+    content: '<span class="transform:translate(0.5px)">VR</span>'
   },
   {
     type: 'button',
@@ -50,51 +59,73 @@ const headerItems = [
   }
 ]
 
-const $ = H5P.jQuery;
+const Viewer = (function ($) {
 
-export default class {
-    constructor($canvas, $container, babylon) {
-      this.$canvas = $canvas;
+    /**
+     * Constructor function
+     * @param {jQuery} $canvas - Canvas that is used in preview by Babylon.js
+     * @param {jQuery} $container - Content container
+     * @param {BabylonBox} babylonBox - BabylonBox instance
+     */
+    function Viewer($canvas, $container, babylonBox) {
+      this._$canvas = $canvas;
       this.$container = $container;
-      this.babylon = babylon;
+      this._babylonBox = babylonBox;
+      this.isShown = false;
     }
 
-    show() {
-      if (!this.isAppend) {
-        this.append();
-        this.isAppend = true;
-      }
+    /**
+     * Show viewer
+     */
+    Viewer.prototype.show = function () {
+      this._append();
       $('body').css('overflow', 'hidden');
-      this.el.find('.viewer--content').append(this.$canvas);
-      this.el.show();
-      this.babylon.engine.resize();
+      // append preview canvas to viewer
+      this.$el.find('.viewer--content').append(this._$canvas);
+      this.$el.show();
+      this._babylonBox.engine.resize();
+      this.isShown = true;
     }
 
-    close() {
+    /**
+     * Hide and detach viewer
+     */
+    Viewer.prototype.close = function () {
+      this._babylonBox.exitWebXRExperience();
       $('body').css('overflow', 'auto');
-      this.$container.find('.h5p-realitybox--preview').append(this.$canvas);
-      this.babylon.engine.resize();
-      this.el.hide();
+      // append canvas back to preview
+      this.$container.find('.h5p-realitybox--preview').append(this._$canvas);
+      this._babylonBox.engine.resize();
+      this.$el.detach();
+      this.isShown = false;
     }
 
-    append() {
-      const html = `
-        <div class="h5p-realitybox--modal">
+    /**
+     * Append viewer to body
+     * @private
+     */
+    Viewer.prototype._append = function () {
+      this.$el = $(
+        `<div class="h5p-realitybox--modal">
           <div class="viewer">
             <nav class="viewer--header"></nav>
             <aside class="viewer--aside"></aside>
             <div class="viewer--content"></div>
           </div>
         </div>
-      `;
-      this.el = $(this.$container.append(html).find('.h5p-realitybox--modal')[0]);
-      this.createNav();
-      this.initTooltips();
-      this.initTrigger();
+      `).appendTo($('body'));
+      this._createNav(headerItems);
+      this._initTooltips();
+      this._initTrigger();
     }
 
-    createNav() {
-      for (const item of headerItems) {
+    /**
+     * Creates navigation bar
+     * @private
+     * @param {Object} - headerItems object
+     */
+    Viewer.prototype._createNav = function (items) {
+      for (const item of items) {
         const outer = $('<div class="item"></div>')
         if (item.type === 'title') {
           outer.addClass('title');
@@ -121,12 +152,15 @@ export default class {
             inner.attr('data-tooltip-content', tooltipContent);
           }
         }
-        this.el.find('.viewer--header').append(outer);
+        this.$el.find('.viewer--header').append(outer);
       }
     }
 
-    initTooltips() {
-
+    /**
+     * Creates tooltips for navigation bar
+     * @private
+     */
+    Viewer.prototype._initTooltips = function () {
       const infoTooltipProps = {
         allowHTML: true,
         interactive: true,
@@ -140,9 +174,9 @@ export default class {
         },
         zIndex: 10000
       };
-
       const infoTooltip = tippy('.trigger--tooltip', infoTooltipProps);
 
+      // call-to-action popup for vr button
       const vrTooltip = tippy('.trigger--vr', {
         allowHTML: true,
         interactive: true,
@@ -170,12 +204,24 @@ export default class {
         hideOnClick: false,
         trigger: 'click'
       });
-
     }
 
-    initTrigger() {
+    /**
+     * Creates all event listeners for navigation bar items
+     * @private
+     */
+    Viewer.prototype._initTrigger = function () {
       $('.trigger--close').click(() => {
         this.close();
-      })
+      });
+      $('.trigger--vr').click(async () => {
+        console.log('vr started');
+        await this._babylonBox.startWebXRExperience();
+      });
     }
-}
+
+    return Viewer;
+
+})(H5P.jQuery);
+
+export default Viewer;

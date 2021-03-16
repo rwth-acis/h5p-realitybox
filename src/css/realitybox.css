@@ -68,7 +68,7 @@
 
 /* styling of viewer */
 
-.h5p-realitybox .h5p-realitybox--modal {
+.h5p-realitybox--modal {
   display: none;
   position: fixed;
   top: 0;
@@ -77,18 +77,23 @@
   right: 0;
   background-color: rgba(0, 0, 0, 0.25);
   padding: 0.75rem;
+  z-index: 9998;
 }
 
-.h5p-realitybox .h5p-realitybox--modal .viewer,
-.h5p-realitybox .viewer .viewer--content,
-.h5p-realitybox .viewer .viewer--content .renderCanvas {
+.h5p-realitybox--modal .viewer {
+  background-color: #000;
+}
+
+.h5p-realitybox--modal .viewer,
+.h5p-realitybox--modal .viewer .viewer--content,
+.h5p-realitybox--modal .viewer .viewer--content .renderCanvas {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.h5p-realitybox .viewer .viewer--header {
+.h5p-realitybox--modal .viewer .viewer--header {
   position: absolute;
   top: 0;
   left: 15px;
@@ -102,15 +107,15 @@
   z-index: 3;
 }
 
-.h5p-realitybox .viewer .viewer--header .item,
-.h5p-realitybox .viewer .viewer--aside .aside--header .item  {
+.h5p-realitybox--modal .viewer .viewer--header .item,
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item  {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
   padding: 0 0.5rem;
 }
 
-.h5p-realitybox .viewer .viewer--header .item .button {
+.h5p-realitybox--modal .viewer .viewer--header .item .button {
   background: none;
   border: none;
   color: #fff;
@@ -120,40 +125,41 @@
   height: 30.5px;
   padding: 0 0.75rem;
   border-radius: 3px;
+  font-weight: 600;
 }
 
-.h5p-realitybox .viewer .viewer--header .item .button.icon {
+.h5p-realitybox--modal .viewer .viewer--header .item .button.icon {
   width: 30.5px;
   padding: 0;
 }
 
-.h5p-realitybox .viewer .viewer--header .item .button.dark {
-  background: rgba(0, 0, 0, 0.25);
+.h5p-realitybox--modal .viewer .viewer--header .item .button.dark {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
-.h5p-realitybox .viewer .viewer--header .item .button:hover,
-.h5p-realitybox .viewer .viewer--header .item .button:focus {
-  background: rgba(0, 0, 0, 0.5);
+.h5p-realitybox--modal .viewer .viewer--header .item .button:hover,
+.h5p-realitybox--modal .viewer .viewer--header .item .button:focus {
+  background-color: rgba(255, 255, 255, 0.15);
   cursor: pointer;
 }
 
-.h5p-realitybox .viewer .viewer--header .item .button:focus {
+.h5p-realitybox--modal .viewer .viewer--header .item .button:focus {
     box-shadow: 0 0 0 2px #fff, 0 0 3px 5px rgba(0, 0, 0, 0.5);
     outline: 2px dotted transparent;
     outline-offset: 2px;
 }
 
-.h5p-realitybox .viewer .viewer--header .item.title,
-.h5p-realitybox .viewer .viewer--aside .aside--header .item.title {
+.h5p-realitybox--modal .viewer .viewer--header .item.title,
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item.title {
   flex: 1 1 auto;
   font-weight: 600;
 }
 
-.h5p-realitybox .viewer .viewer--content {
+.h5p-realitybox--modal .viewer .viewer--content {
   z-index: 1;
 }
 
-.h5p-realitybox .viewer .viewer--aside {
+.h5p-realitybox--modal .viewer .viewer--aside {
   position: absolute;
   top: 0;
   right: calc(-1 * 100% + 2rem);
@@ -165,11 +171,11 @@
   z-index: 2;
 }
 
-.h5p-realitybox .viewer .viewer--aside.isOpen {
+.h5p-realitybox--modal .viewer .viewer--aside.isOpen {
   box-shadow: -8px 0 15px 0 rgba(0, 0, 0, 0.2);
 }
 
-.h5p-realitybox .viewer .viewer--aside .aside--header {
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header {
   height: 40px;
   padding: 0 1.25rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -177,15 +183,15 @@
   align-items: stretch;
 }
 
-.h5p-realitybox .viewer .viewer--aside .aside--header .item {
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item {
   padding: 0;
 }
 
-.h5p-realitybox .viewer .viewer--aside .aside--header .item.title {
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item.title {
   font-weight: normal;
 }
 
-.h5p-realitybox .viewer .viewer--aside .aside--header .item  button {
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item  button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,22 +200,23 @@
   background: none;
   border: none;
   border-radius: 50%;
+  font-size: 17px;
 }
 
-.h5p-realitybox .viewer .viewer--aside .aside--header .item  button:hover,
-.h5p-realitybox .viewer .viewer--aside .aside--header .item  button:focus {
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item  button:hover,
+.h5p-realitybox--modal .viewer .viewer--aside .aside--header .item  button:focus {
   background-color: rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
 
-.h5p-realitybox .viewer .viewer--aside .aside--content {
+.h5p-realitybox--modal .viewer .viewer--aside .aside--content {
   height: calc(100% - 41px);
   padding: 0.5rem 1.25rem;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-.h5p-realitybox .viewer kbd {
+.h5p-realitybox--modal .viewer kbd {
   margin: 0 0.1em;
   padding: 0.1em 0.6em;
   border-radius: 3px;
@@ -229,23 +236,23 @@
 }
 
 /* styling of tooltip inside of viewer */
-.h5p-realitybox .viewer .tooltip--info .tippy-content {
+.h5p-realitybox--modal .viewer .tooltip--info .tippy-content {
   display: flex;
   align-items: center;
   font-size: 12px;
   pointer-events: none;
 }
 
-.h5p-realitybox .viewer .tooltip--info .tippy-content div {
+.h5p-realitybox--modal .viewer .tooltip--info .tippy-content div {
   transform: translateY(0.5px);
 }
 
-.h5p-realitybox .viewer .tooltip--info .tippy-content div:last-child {
+.h5p-realitybox--modal .viewer .tooltip--info .tippy-content div:last-child {
   margin-left: 0.5rem;
   transform: none;
 }
 
-.h5p-realitybox .viewer .tooltip--cta .tippy-content div {
+.h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div {
   margin-bottom: 0.5rem;
 }
 
@@ -273,4 +280,10 @@
 .h5p-realitybox .welcome {
   padding: 0 1rem 1rem 1rem;
   text-align: justify;
+}
+
+/* styling for vr mode */
+
+body.in-vr-mode {
+  position: fixed !important;
 }

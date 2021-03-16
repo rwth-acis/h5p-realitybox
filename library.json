@@ -14,10 +14,14 @@
   },
   "embedTypes": ["div"],
   "preloadedJs": [
-    { "path": "dist/main.js" }
+    {
+      "path": "dist/main.js"
+    }
   ],
   "preloadedCss": [
-    { "path": "dist/main.css" }
+    {
+      "path": "dist/main.css"
+    }
   ],
   "preloadedDependencies": [
      {
@@ -31,6 +35,11 @@
       "machineName": "H5PEditor.Wizard",
       "majorVersion": 1,
       "minorVersion": 2
+    },
+    {
+      "machineName": "H5PEditor.RealityBox",
+      "majorVersion": 1,
+      "minorVersion": 0
     }
   ]
 }

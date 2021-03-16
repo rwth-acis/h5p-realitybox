@@ -7,41 +7,84 @@
     "importance": "high",
     "fields": [
       {
-        "label": "Add a 3D model file",
+        "label": "Upload model",
         "name": "model",
-        "type": "file",
-        "importance": "high"
+        "type": "group",
+        "importance": "high",
+        "fields": [
+          {
+            "name": "file",
+            "type": "file",
+            "label": "Add a 3d object file",
+            "importance": "high"
+          }
+        ]
       },
       {
         "label": "Add markers",
-        "name": "markers",
-        "type": "list",
+        "name": "assets",
+        "type": "group",
         "importance": "high",
-        "field": {
-          "name": "marker",
-          "type": "group",
-          "importance": "low",
-          "fields": [
-            {
-              "label": "Position",
-              "name": "position",
-              "type": "text"
-            },
-            {
-              "label": "Name",
-              "name": "name",
-              "type": "text"
-            },
-            {
-              "label": "Content",
-              "name": "content",
-              "type": "library",
-              "options": [
-                "H5P.Column 1.13"
+        "widget": "realitybox",
+        "model": "model/file",
+        "fields": [
+          {
+            "name": "markers",
+            "type": "list",
+            "field": {
+              "name": "marker",
+              "type": "group",
+              "fields": [
+                {
+                  "label": "Position",
+                  "name": "position",
+                  "type": "group",
+                  "fields": [
+                    {
+                      "name": "x",
+                      "type": "number"
+                    },
+                    {
+                      "name": "y",
+                      "type": "number"
+                    },
+                    {
+                      "name": "z",
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "label": "Normal Reference",
+                  "name": "normalRef",
+                  "type": "group",
+                  "fields": [
+                    {
+                      "name": "x",
+                      "type": "number"
+                    },
+                    {
+                      "name": "y",
+                      "type": "number"
+                    },
+                    {
+                      "name": "z",
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "label": "Content",
+                  "name": "content",
+                  "type": "library",
+                  "options": [
+                    "H5P.Column 1.13"
+                  ]
+                }
               ]
             }
-          ]
-        }
+          }
+        ]
       },
       {
         "label": "Settings",
