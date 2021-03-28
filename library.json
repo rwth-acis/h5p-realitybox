@@ -28,6 +28,11 @@
        "machineName": "H5P.BabylonBox",
        "majorVersion": 1,
        "minorVersion": 0
+     },
+     {
+       "machineName": "H5P.KewArCode",
+       "majorVersion": 0,
+       "minorVersion": 2
      }
   ],
   "editorDependencies": [

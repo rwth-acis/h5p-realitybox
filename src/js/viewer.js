@@ -1,4 +1,5 @@
 import tippy, {createSingleton} from 'tippy.js';
+import VRPopup from './vrPopup.js';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
@@ -67,10 +68,11 @@ const Viewer = (function ($) {
      * @param {jQuery} $container - Content container
      * @param {BabylonBox} babylonBox - BabylonBox instance
      */
-    function Viewer($canvas, $container, babylonBox) {
+    function Viewer($canvas, $container, babylonBox, id) {
       this._$canvas = $canvas;
       this.$container = $container;
       this._babylonBox = babylonBox;
+      this.id = id;
       this.isShown = false;
     }
 
@@ -214,9 +216,19 @@ const Viewer = (function ($) {
       $('.trigger--close').click(() => {
         this.close();
       });
-      $('.trigger--vr').click(async () => {
-        console.log('vr started');
-        await this._babylonBox.startWebXRExperience();
+      $('.trigger--vr').click(async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!this.vrPopup) {
+          const uri = window.location.toString();
+          const clean_uri = (uri.indexOf("#") > 0) ? uri.substring(0, uri.indexOf("#")) : uri;
+          this.vrPopup = new VRPopup(clean_uri + '#openViewer=' + this.id);
+          this.vrPopup.on('start webxr', async () => {
+            console.log('starting vr...');
+            await this._babylonBox.startWebXRExperience();
+          });
+        }
+        this.vrPopup.popout('vr');
       });
     }
 

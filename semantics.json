@@ -21,7 +21,7 @@
         ]
       },
       {
-        "label": "Add markers",
+        "label": "Add annotations",
         "name": "assets",
         "type": "group",
         "importance": "high",
@@ -29,10 +29,10 @@
         "model": "model/file",
         "fields": [
           {
-            "name": "markers",
+            "name": "annotations",
             "type": "list",
             "field": {
-              "name": "marker",
+              "name": "annotation",
               "type": "group",
               "fields": [
                 {
