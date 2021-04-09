@@ -8,17 +8,19 @@ const Popup = (function ($) {
    */
   function Popup(title, content, maxWidth) {
     this.$el = $(`<div class="viewer--popup">
-      <div class="container">
-        <div class="header">
-          <div class="header--title"></div>
-          <div>
-            <button class="trigger--popup-close">
-              <i class="material-icons">close</i>
-            </button>
+      <div class="outer">
+        <div class="container">
+          <div class="header">
+            <div class="header--title"></div>
+            <div>
+              <button class="trigger--popup-close">
+                <i class="material-icons">close</i>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="content">
-          Content of the tab
+          <div class="content">
+            Content of the tab
+          </div>
         </div>
       </div>
     </div>`);
@@ -38,12 +40,15 @@ const Popup = (function ($) {
    */
   Popup.prototype.open = function () {
     $('body').append(this.$el);
-    this._closeIfOutside = (event) => {
-      if (!this.$container.is(event.target) && this.$container.has(event.target).length === 0) {
+    this._clickOutsideHandler = (event) => {
+      if (
+        !this.$container.is(event.target) &&
+        this.$container.has(event.target).length === 0
+      ) {
         this.close();
       }
     }
-    $('html').on('click', this._closeIfOutside);
+    this.$el.on('click', this._clickOutsideHandler);
   }
 
   /**
@@ -52,7 +57,7 @@ const Popup = (function ($) {
    Popup.prototype.close = function () {
      console.log('close popup');
      this.$el.detach();
-     $('html').off('click', this._closeIfOutside);
+     this.$el.off('click', this._clickOutsideHandler);
    }
 
   return Popup;

@@ -1,5 +1,6 @@
-import tippy, {createSingleton} from 'tippy.js';
+import tippy, { createSingleton, followCursor } from 'tippy.js';
 import VRPopup from './vrPopup.js';
+import Tooltip from './tooltip.js';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
@@ -82,10 +83,28 @@ const Viewer = (function ($) {
     Viewer.prototype.show = function () {
       this._append();
       $('body').css('overflow', 'hidden');
+      this._$viewerContent = this.$el.find('.viewer--content');
       // append preview canvas to viewer
-      this.$el.find('.viewer--content').append(this._$canvas);
+      this._$viewerContent.append(this._$canvas);
       this.$el.show();
       this._babylonBox.engine.resize();
+
+      this._babylonBox.on('annotation pointerover', ({ data }) => {
+        if (typeof(data.content.metadata.title) === 'undefined') {
+          return;
+        }
+        if (!this._titleTooltip) {
+          this._titleTooltip = new Tooltip();
+        }
+        this._titleTooltip.show(data.content.metadata.title);
+      });
+
+      this._babylonBox.on('annotation pointerout', () => {
+        if (this._titleTooltip) {
+          this._titleTooltip.hide();
+        }
+      });
+
       this.isShown = true;
     }
 
@@ -96,7 +115,7 @@ const Viewer = (function ($) {
       this._babylonBox.exitWebXRExperience();
       $('body').css('overflow', 'auto');
       // append canvas back to preview
-      this.$container.find('.h5p-realitybox--preview').append(this._$canvas);
+      this.$container.find('.h5p-realitybox--preview').prepend(this._$canvas);
       this._babylonBox.engine.resize();
       this.$el.detach();
       this.isShown = false;
@@ -220,9 +239,12 @@ const Viewer = (function ($) {
         event.preventDefault();
         event.stopPropagation();
         if (!this.vrPopup) {
-          const uri = window.location.toString();
-          const clean_uri = (uri.indexOf("#") > 0) ? uri.substring(0, uri.indexOf("#")) : uri;
-          this.vrPopup = new VRPopup(clean_uri + '#openViewer=' + this.id);
+          let uri = window.location.toString();
+          if (uri.indexOf('#') > 0) {
+            // remove hash in uri
+            uri = uri.substring(0, uri.indexOf("#"));
+          }
+          this.vrPopup = new VRPopup(uri + '#openViewer=' + this.id);
           this.vrPopup.on('start webxr', async () => {
             console.log('starting vr...');
             await this._babylonBox.startWebXRExperience();

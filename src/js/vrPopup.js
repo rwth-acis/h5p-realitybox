@@ -12,21 +12,35 @@ const VRPopup = (function ($) {
     this._url = url;
     const html =`<div class="vr-popup--content">
         <div class="tabs">
-          <button class="tab show-tab-mobile">Mobile device</button>
-          <button class="tab show-tab-vr">VR headset</button>
+          <button class="tab show-tab-mobile">
+            Mobile device
+          </button>
+          <button class="tab show-tab-vr">
+            VR headset
+          </button>
         </div>
         <div class="inner-content">
           <div class="tab-mobile">
-            Open the viewer on your mobile device with help of the following URL.
+            Open the viewer on your mobile device
+            with help of the following URL.
             <div class="kewar"></div>
-            <div>${this._url}</div>
+            <input
+              class="url-input"
+              onclick="this.select()"
+              type="text"
+              value="${this._url}"
+              size="${this._url.length + 1}"
+              readonly
+            />
           </div>
           <div class="tab-vr">
-            <button class="trigger--start-webxr">Start VR Experience</button>
+            <button class="trigger--start-webxr">
+              Start VR Experience
+            </button>
           </div>
         </div>
     </div>`;
-    this.popup = new Popup('Show in VR', html, 500);
+    this.popup = new Popup('', html, 500);
     this.$content = this.popup.$content;
     this._kewar = H5P.newRunnable({
       library: 'H5P.KewArCode 0.2',
