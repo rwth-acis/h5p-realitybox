@@ -221,7 +221,7 @@
   z-index: 2;
 }
 
-.h5p-realitybox--modal .viewer .viewer--aside.isOpen {
+.h5p-realitybox--modal .viewer .viewer--aside.is-shown {
   box-shadow: -8px 0 15px 0 rgba(0, 0, 0, 0.2);
 }
 

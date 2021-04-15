@@ -2,12 +2,10 @@ const Tooltip = (function ($) {
 
   /**
    * Constructor function
-   * Attach preview box to content container
-   * @params {jQuery} $container - Content container
    */
   function Tooltip() {
     this.$el = $(`<div class="h5p-realitybox--tooltip"></div>`);
-    this.visible = false;
+    this.isVisible = false;
   }
 
   /**
@@ -23,19 +21,19 @@ const Tooltip = (function ($) {
       });
     }
     $('body').on('mousemove', this._mousemoveHandler);
-    this.visible = true;
+    this.isVisible = true;
   }
 
   /**
    * Hides tooltip
    */
   Tooltip.prototype.hide = function () {
-    if (!this.visible) {
+    if (!this.isVisible) {
       return;
     }
     this.$el.detach();
     $('body').off('mousemove', this._mousemoveHandler);
-    this.visible = false;
+    this.isVisible = false;
   }
 
   return Tooltip;

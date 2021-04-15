@@ -1,4 +1,5 @@
 import tippy, { createSingleton, followCursor } from 'tippy.js';
+import Aside from './aside.js';
 import VRPopup from './vrPopup.js';
 import Tooltip from './tooltip.js';
 import 'tippy.js/dist/tippy.css';
@@ -75,6 +76,8 @@ const Viewer = (function ($) {
       this._babylonBox = babylonBox;
       this.id = id;
       this.isShown = false;
+      this.isAsideShown = false;
+      this.activeAnnotation = null;
     }
 
     /**
@@ -88,23 +91,6 @@ const Viewer = (function ($) {
       this._$viewerContent.append(this._$canvas);
       this.$el.show();
       this._babylonBox.engine.resize();
-
-      this._babylonBox.on('annotation pointerover', ({ data }) => {
-        if (typeof(data.content.metadata.title) === 'undefined') {
-          return;
-        }
-        if (!this._titleTooltip) {
-          this._titleTooltip = new Tooltip();
-        }
-        this._titleTooltip.show(data.content.metadata.title);
-      });
-
-      this._babylonBox.on('annotation pointerout', () => {
-        if (this._titleTooltip) {
-          this._titleTooltip.hide();
-        }
-      });
-
       this.isShown = true;
     }
 
@@ -130,11 +116,13 @@ const Viewer = (function ($) {
         `<div class="h5p-realitybox--modal">
           <div class="viewer">
             <nav class="viewer--header"></nav>
-            <aside class="viewer--aside"></aside>
             <div class="viewer--content"></div>
           </div>
         </div>
       `).appendTo($('body'));
+
+      this._aside = new Aside(this.$el.find('.viewer'), this.$el.find('.viewer--content'), this._babylonBox.engine.resize);
+
       this._createNav(headerItems);
       this._initTooltips();
       this._initTrigger();
@@ -232,9 +220,13 @@ const Viewer = (function ($) {
      * @private
      */
     Viewer.prototype._initTrigger = function () {
+
+      // trigger for button events
+
       $('.trigger--close').click(() => {
         this.close();
       });
+
       $('.trigger--vr').click(async (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -252,6 +244,50 @@ const Viewer = (function ($) {
         }
         this.vrPopup.popout('vr');
       });
+
+      // trigger for pointer events of BabylonBox
+
+      this._babylonBox.on('annotation pointerover', ({ data }) => {
+        this._babylonBox.setAnnotationState('hover', data);
+        if (typeof(data.content.metadata.title) !== 'undefined') {
+          if (!this._titleTooltip) {
+            this._titleTooltip = new Tooltip();
+          }
+          this._titleTooltip.show(data.content.metadata.title);
+        }
+      });
+
+      this._babylonBox.on('annotation pointerout', ({ data }) => {
+        this._babylonBox.setAnnotationState('inactive', data);
+        if (this._titleTooltip) {
+          this._titleTooltip.hide();
+        }
+      });
+
+      this._babylonBox.on('annotation picked', ({ data }) => {
+        this.activeAnnotation = data;
+        this._babylonBox.setAnnotationState('active', this.activeAnnotation);
+        this._loadContentInAside();
+      });
+    }
+
+    /**
+     * Insert content in aside and call showAside afterwards
+     * @private
+     */
+    Viewer.prototype._loadContentInAside = function () {
+      if (typeof(this.activeAnnotation.content) === 'undefined') {
+        this._aside.hide();
+        return;
+      }
+      delete this._h5pContent;
+      this._h5pContent = H5P.newRunnable(
+        this.activeAnnotation.content,
+        this.id
+      );
+      const $contentBox = this._aside.$el.find('.aside--content').empty();
+      this._h5pContent.attach($contentBox);
+      this._aside.show();
     }
 
     return Viewer;
