@@ -10,57 +10,7 @@ H5P.RealityBox = (function ($) {
    */
   function RealityBox(options, id) {
     // Extend defaults with provided options
-    this.options = $.extend(true, {}, {
-      annotations: [
-        // example annotation
-        {
-          "position": {
-            "x": -1.0482898860948549,
-            "y": 0,
-            "z": -0.8716415454633013
-          },
-          "normalRef": {
-            "x": 0,
-            "y": 1,
-            "z": 0
-          },
-          "content": {
-            "library": "H5P.Column 1.13",
-            "params": {
-              "content": [
-                {
-                  "content": {
-                    "params": {
-                      "text": "<p>Blender???</p>\n"
-                    },
-                    "library": "H5P.AdvancedText 1.1",
-                    "metadata": {
-                      "contentType": "Text",
-                      "license": "U",
-                      "title": "Untitled Text",
-                      "authors": [],
-                      "changes": []
-                    },
-                    "subContentId": "37562dae-d032-4af3-89dc-2662e11ffd25"
-                  },
-                  "useSeparator": "auto"
-                }
-              ]
-            },
-            "subContentId": "8a887435-a7cf-47c0-b91b-2028d94be53d",
-            "metadata": {
-              "contentType": "Column",
-              "license": "U",
-              "title": "Suzanne",
-              "authors": [],
-              "changes": [],
-              "extraTitle": "Suzanne"
-            }
-          },
-          "id": "5894a580-ce7d-476c-bbe4-9e50496e3b42"
-        }
-      ]
-    }, options.realitybox);
+    this.options = options.realitybox;
     // Keep provided id
     this.id = id;
     console.log(this.options);
@@ -81,7 +31,6 @@ H5P.RealityBox = (function ($) {
         { modelUrl },
         { annotations: this.options.annotations }
       );
-      console.log(params);
       const babylonBox = H5P.newRunnable({
         library: 'H5P.BabylonBox 1.0',
         params

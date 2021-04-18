@@ -6,15 +6,15 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
 
 /**
- * HeaderItems object
+ * HEADER_ITEMS object
  * @type {Object}
- * @property {string} headerItems.type - Type of item (button or title)
- * @property {string} headerItems.addClass - CSS classes that should be added to item
- * @property {string} headerItems.tooltip - Text of related tooltip
- * @property {string[]} headerItems.kbd - Associated key board shortcut
- * @property {string} headerItems.content - HTML content of item
+ * @property {string} HEADER_ITEMS.type - Type of item (button or title)
+ * @property {string} HEADER_ITEMS.addClass - CSS classes that should be added to item
+ * @property {string} HEADER_ITEMS.tooltip - Text of related tooltip
+ * @property {string[]} HEADER_ITEMS.kbd - Associated key board shortcut
+ * @property {string} HEADER_ITEMS.content - HTML content of item
  */
-const headerItems = [
+const HEADER_ITEMS = [
   {
     type: 'button',
     addClass: 'button icon trigger--close',
@@ -69,6 +69,7 @@ const Viewer = (function ($) {
      * @param {jQuery} $canvas - Canvas that is used in preview by Babylon.js
      * @param {jQuery} $container - Content container
      * @param {BabylonBox} babylonBox - BabylonBox instance
+     * @param {string} id - ID of H5P.RealityBox instance
      */
     function Viewer($canvas, $container, babylonBox, id) {
       this._$canvas = $canvas;
@@ -119,11 +120,11 @@ const Viewer = (function ($) {
             <div class="viewer--content"></div>
           </div>
         </div>
-      `).appendTo($('body'));
+      `).appendTo('body');
 
       this._aside = new Aside(this.$el.find('.viewer'), this.$el.find('.viewer--content'), this._babylonBox.engine.resize);
 
-      this._createNav(headerItems);
+      this._createNav(HEADER_ITEMS);
       this._initTooltips();
       this._initTrigger();
     }
@@ -131,7 +132,7 @@ const Viewer = (function ($) {
     /**
      * Creates navigation bar
      * @private
-     * @param {Object} - headerItems object
+     * @param {Object} - HEADER_ITEMS object
      */
     Viewer.prototype._createNav = function (items) {
       for (const item of items) {

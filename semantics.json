@@ -22,14 +22,14 @@
       },
       {
         "label": "Add annotations",
-        "name": "assets",
+        "name": "annotations",
         "type": "group",
         "importance": "high",
         "widget": "realitybox",
         "model": "model/file",
         "fields": [
           {
-            "name": "annotations",
+            "name": "annotationsList",
             "type": "list",
             "field": {
               "name": "annotation",
