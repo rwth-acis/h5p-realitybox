@@ -1,0 +1,8 @@
+.git
+node_modules
+src
+.gitignore
+.h5pignore
+package-lock.json
+package.json
+webpack.config.json
