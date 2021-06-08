@@ -24,12 +24,12 @@ const HEADER_ITEMS = [
   },
   {
     type: 'title',
-    content: '<span style="transform:translateY(1px)">Skelett</span>'
+    content: '<span style="transform:translateY(1px)">RealityBox</span>'
   },
   {
     type: 'button',
-    addClass: 'button icon',
-    tooltip: 'Stop animation',
+    addClass: 'button icon trigger--toggle-rotation',
+    tooltip: 'Toggle rotation',
     kbd: ['Space'],
     content: '<i class="material-icons">pause</i>'
   },
@@ -50,16 +50,16 @@ const HEADER_ITEMS = [
     addClass: 'button dark trigger--vr',
     hide_tooltip: true,
     tooltip: 'Open on VR device',
-    kbd: ['Ctrl', 'D'],
+    kbd: ['Alt', '.'],
     content: '<span class="transform:translate(0.5px)">VR</span>'
-  },
+  }/*,
   {
     type: 'button',
     addClass: 'button icon',
     tooltip: 'Info',
-    kbd: ['Ctrl', 'I'],
+    kbd: ['Alt', '-'],
     content: '<i class="material-icons">info</i>'
-  }
+  }*/
 ]
 
 const Viewer = (function ($) {
@@ -93,6 +93,8 @@ const Viewer = (function ($) {
       this.$el.show();
       this._babylonBox.engine.resize();
       this.isShown = true;
+
+      d4t.startTimer('timeInViewer');
     }
 
     /**
@@ -100,12 +102,36 @@ const Viewer = (function ($) {
      */
     Viewer.prototype.close = function () {
       this._babylonBox.exitWebXRExperience();
+      this._aside.hide();
       $('body').css('overflow', 'auto');
       // append canvas back to preview
       this.$container.find('.h5p-realitybox--preview').prepend(this._$canvas);
       this._babylonBox.engine.resize();
       this.$el.detach();
       this.isShown = false;
+
+      d4t.stopTimer('timeInViewer');
+      d4t.showStarRating(
+        'viewer',
+        'https://limesurvey.com/abcxyz',
+        'https://github.com/rwth-acis/h5p-realitybox'
+      );
+    }
+
+    /**
+     * Handles start or pause of auto rotation
+     * @private
+     * @param {boolean} isActive - True if rotation should started
+     */
+    Viewer.prototype._setRotation = function (isActive) {
+      const $btnIcon = this.$el.find('.trigger--toggle-rotation i.material-icons');
+      if (isActive) {
+        $btnIcon.text('pause');
+        this._babylonBox.camera.startAutoRotation();
+        return;
+      }
+      $btnIcon.text('play_arrow');
+      this._babylonBox.camera.pauseAutoRotation();
     }
 
     /**
@@ -113,8 +139,12 @@ const Viewer = (function ($) {
      * @private
      */
     Viewer.prototype._append = function () {
+      if (this.$el) {
+        this.$el.appendTo('body');
+        return;
+      }
       this.$el = $(
-        `<div class="h5p-realitybox--modal">
+        `<div class="h5p-realitybox--modal" tabindex="0">
           <div class="viewer">
             <nav class="viewer--header"></nav>
             <div class="viewer--content"></div>
@@ -122,11 +152,23 @@ const Viewer = (function ($) {
         </div>
       `).appendTo('body');
 
-      this._aside = new Aside(this.$el.find('.viewer'), this.$el.find('.viewer--content'), this._babylonBox.engine.resize);
+      this._aside = new Aside(
+        this.$el.find('.viewer'),
+        this.$el.find('.viewer--content'),
+        this._babylonBox.engine
+      );
+
+      this._aside.on('close', () => {
+        if (this.activeAnnotation) {
+          this._babylonBox.setAnnotationState('inactive', this.activeAnnotation);
+          this.activeAnnotation = null;
+        }
+      });
 
       this._createNav(HEADER_ITEMS);
       this._initTooltips();
       this._initTrigger();
+      this._setRotation(this._babylonBox.camera.autoRotationEnabled);
     }
 
     /**
@@ -177,7 +219,7 @@ const Viewer = (function ($) {
         theme: 'dark',
         placement: 'bottom',
         content(ref) {
-          return $(ref).attr('data-tooltip-content');
+          return $(ref).data('tooltip-content');
         },
         onCreate(instance) {
           $(instance.popper).addClass('tooltip--info');
@@ -185,6 +227,18 @@ const Viewer = (function ($) {
         zIndex: 10000
       };
       const infoTooltip = tippy('.trigger--tooltip', infoTooltipProps);
+
+      const regex = new RegExp('vrGotIt', 'g');
+      const cookieExists =
+        document.cookie &&
+        decodeURIComponent(document.cookie).match(regex) &&
+        decodeURIComponent(document.cookie).match(regex).length > 0;
+
+      if (cookieExists) {
+        const vrButton = this.$el.find('.trigger--vr')[0];
+        tippy(vrButton, infoTooltipProps);
+        return;
+      }
 
       // call-to-action popup for vr button
       const vrTooltip = tippy('.trigger--vr', {
@@ -208,6 +262,7 @@ const Viewer = (function ($) {
           popper.find('.trigger--popper-close').click(() => {
             instance.destroy();
             tippy(instance.reference, infoTooltipProps);
+            document.cookie += 'vrGotIt=1;'
           });
         },
         showOnCreate: true,
@@ -222,13 +277,33 @@ const Viewer = (function ($) {
      */
     Viewer.prototype._initTrigger = function () {
 
-      // trigger for button events
+      let btn;
+      this.$el.on('keydown', (event) => {
+        let btn;
+        if (event.which === 27) { // ESC
+          btn = '.trigger--close'
+        }
+        else if (event.which === 32) { // Space
+          btn = '.trigger--toggle-rotation';
+        }
+        else if (event.altKey && event.which === 190) { // Alt+.
+          btn = '.trigger--vr';
+        }
+        if (btn) {
+          this.$el.find(btn).click();
+        }
+      });
 
-      $('.trigger--close').click(() => {
+      // trigger for button events
+      this.$el.find('.trigger--close').click(() => {
         this.close();
       });
 
-      $('.trigger--vr').click(async (event) => {
+      this.$el.find('.trigger--toggle-rotation').click(() => {
+        this._setRotation(!this._babylonBox.camera.autoRotationEnabled);
+      });
+
+      this.$el.find('.trigger--vr').click(async (event) => {
         event.preventDefault();
         event.stopPropagation();
         if (!this.vrPopup) {
@@ -238,10 +313,19 @@ const Viewer = (function ($) {
             uri = uri.substring(0, uri.indexOf("#"));
           }
           this.vrPopup = new VRPopup(uri + '#openViewer=' + this.id);
-          this.vrPopup.on('start webxr', async () => {
-            console.log('starting vr...');
+
+          this.vrPopup.on('start webxr', async ({ data }) => {
+            d4t.set('requestWebXR', 1);
+
+            if (data.showAnnotations) {
+              this._babylonBox.showAllAnnotations();
+            }
+            else {
+              this._babylonBox.hideAllAnnotations();
+            }
             await this._babylonBox.startWebXRExperience();
           });
+
         }
         this.vrPopup.popout('vr');
       });
@@ -250,7 +334,10 @@ const Viewer = (function ($) {
 
       this._babylonBox.on('annotation pointerover', ({ data }) => {
         this._babylonBox.setAnnotationState('hover', data);
-        if (typeof(data.content.metadata.title) !== 'undefined') {
+        if (
+          typeof(data.content.metadata.title) !== 'undefined' &&
+          !this._babylonBox.webXR.inWebXR
+        ) {
           if (!this._titleTooltip) {
             this._titleTooltip = new Tooltip();
           }
@@ -259,16 +346,26 @@ const Viewer = (function ($) {
       });
 
       this._babylonBox.on('annotation pointerout', ({ data }) => {
-        this._babylonBox.setAnnotationState('inactive', data);
+        if (this.activeAnnotation !== data) {
+          this._babylonBox.setAnnotationState('inactive', data);
+        }
         if (this._titleTooltip) {
           this._titleTooltip.hide();
         }
       });
 
       this._babylonBox.on('annotation picked', ({ data }) => {
+        if (this._babylonBox.webXR.inWebXR) {
+          this.activeAnnotation = null;
+          this._babylonBox.guiLabel.show(
+            this.activeAnnotation.content.metadata.title
+          );
+          return;
+        }
         this.activeAnnotation = data;
         this._babylonBox.setAnnotationState('active', this.activeAnnotation);
         this._loadContentInAside();
+        this._titleTooltip.hide();
       });
     }
 
@@ -288,6 +385,10 @@ const Viewer = (function ($) {
       );
       const $contentBox = this._aside.$el.find('.aside--content').empty();
       this._h5pContent.attach($contentBox);
+      $.each(this.$el.find('.h5p-column-content'), (i, el) => {
+        $(el).height(el.scrollHeight);
+      });
+      this._aside.setTitle(this.activeAnnotation.content.metadata.title);
       this._aside.show();
     }
 

@@ -1,3 +1,4 @@
+import Data4Thesis from './data4thesis.js';
 import Preview from './preview.js';
 import Viewer from './viewer.js';
 
@@ -9,21 +10,31 @@ H5P.RealityBox = (function ($) {
    * @param {string} id - ID of RealityBox instance
    */
   function RealityBox(options, id) {
+
+    // Only for evaluation purposes (remove in production)
+    // Create global Data4Thesis instance for evaluation
+    window.d4t = new Data4Thesis('https://ginkgo.informatik.rwth-aachen.de/ballmann/index.php');
+
     // Extend defaults with provided options
     this.options = options.realitybox;
+    this.description = options.description;
     // Keep provided id
     this.id = id;
-    console.log(this.options);
   }
 
   /**
    * Attach function called by H5P framework to insert H5P content into page
    * @param {jQuery} $container
    */
-  RealityBox.prototype.attach = function ($container) {
+  RealityBox.prototype.attach = async function ($container) {
       $container.addClass('h5p-realitybox');
       const preview = new Preview($container);
-      $container.append(`<div class="welcome">This is the model viewer.</div>`)
+
+      if (this.description) {
+        const $descriptionBox = $(`<div />`).appendTo($container);
+        $descriptionBox.html(this.description);
+      }
+
 
       let modelUrl = H5P.getPath(this.options.model.path, this.id);
       let params = $.extend(
@@ -35,7 +46,15 @@ H5P.RealityBox = (function ($) {
         library: 'H5P.BabylonBox 1.0',
         params
       }, this.id, undefined, undefined, {parent: this});
-      babylonBox.attach(preview.$box);
+
+      await babylonBox.attach(preview.$box);
+
+      if (
+        this.options.settings === true ||
+        (this.options.settings && this.options.settings.autoRotation)
+      ) {
+        babylonBox.camera.startAutoRotation();
+      }
 
       this._viewer = new Viewer(
         babylonBox.$canvas,
@@ -61,8 +80,11 @@ H5P.RealityBox = (function ($) {
    */
   RealityBox.prototype._checkHash = function () {
     if (location.hash === '#openViewer=' + this.id) {
-      console.log("hash opens viewer");
       this._viewer.show();
+      this._viewer.$el.find('.trigger--vr').click();
+
+      // only for evaluation
+      d4t.set('usedQuickHash', 1)
     }
   }
 

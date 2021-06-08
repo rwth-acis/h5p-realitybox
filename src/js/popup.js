@@ -55,7 +55,6 @@ const Popup = (function ($) {
    * Closes the popup
    */
    Popup.prototype.close = function () {
-     console.log('close popup');
      this.$el.detach();
      this.$el.off('click', this._clickOutsideHandler);
    }

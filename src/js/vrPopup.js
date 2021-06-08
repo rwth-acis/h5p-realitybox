@@ -34,9 +34,21 @@ const VRPopup = (function ($) {
             />
           </div>
           <div class="tab-vr">
-            <button class="trigger--start-webxr">
-              Start VR Experience
-            </button>
+            <div>
+              <label>
+                <input
+                  class="checkbox--show-annotations"
+                  type="checkbox"
+                  checked
+                />
+                Show annotations in VR Experience
+              </label>
+            </div>
+            <div>
+              <button class="trigger--start-webxr">
+                Start VR Experience
+              </button>
+            </div>
           </div>
         </div>
     </div>`;
@@ -55,8 +67,9 @@ const VRPopup = (function ($) {
     this._kewar.attach(this.$content.find('.kewar'));
 
     this.$content.find('.trigger--start-webxr').click(() => {
-      console.log('start webxr this.trigger');
-      this.trigger('start webxr');
+      const $checkbox = this.$content.find('.checkbox--show-annotations');
+      const showAnnotations = $checkbox.prop('checked');
+      this.trigger('start webxr', { showAnnotations });
     });
 
     this.tabs = ['mobile', 'vr'];
@@ -99,7 +112,6 @@ const VRPopup = (function ($) {
     * @param {string} activeTab - Name of tab to activate
     */
    VRPopup.prototype._showTab = function (activeTab) {
-     console.log('Show tab: ' + activeTab);
      for (const tab of this.tabs) {
        this.$content.find('.show-tab-' + tab).removeClass('active');
        this.$content.find('.tab-' + tab).hide();

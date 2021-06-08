@@ -45,6 +45,11 @@
       "machineName": "H5PEditor.RealityBox",
       "majorVersion": 1,
       "minorVersion": 0
+    },
+    {
+      "machineName": "H5PEditor.ThreeDModelLoader",
+      "majorVersion": 1,
+      "minorVersion": 1
     }
   ]
 }

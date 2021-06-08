@@ -1,4 +1,7 @@
-.h5p-realitybox {
+.h5p-realitybox,
+.h5p-realitybox *,
+.h5p-realitybox--modal,
+.h5p-realitybox--modal * {
   box-sizing: border-box;
 }
 
@@ -24,7 +27,7 @@
   left: 0;
   bottom: 0;
   padding: 0 1rem 1rem 1rem;
-  width: calc(100% - 2rem);
+  width: 100%;
   background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2));
   z-index: 2;
 }
@@ -215,6 +218,7 @@
   border: none;
   border-radius: 50%;
   font-size: 17px;
+  color: #000;
 }
 
 .h5p-realitybox--modal .viewer .viewer--aside .aside--header .item  button:hover,
@@ -268,6 +272,14 @@
 
 .h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div {
   margin-bottom: 0.5rem;
+}
+
+.h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div button.got-it {
+  background-color: #457bc1;
+}
+
+.h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div button.got-it:hover {
+  background-color: #215ca8;
 }
 
 /* tippy.js dark theme */
@@ -350,6 +362,7 @@ body.in-vr-mode {
   height: 30px;
   background: none;
   border: none;
+  color: #000;
 }
 
 .viewer--popup .header button.trigger--popup-close:hover,
@@ -376,6 +389,7 @@ body.in-vr-mode {
   border-right: none;
   cursor: pointer;
   border-radius: 0;
+  color: #000;
 }
 
 .viewer--popup .vr-popup--content .tab:hover, .tab:focus {

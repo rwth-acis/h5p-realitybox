@@ -34,7 +34,10 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
-.h5p-realitybox {
+.h5p-realitybox,
+.h5p-realitybox *,
+.h5p-realitybox--modal,
+.h5p-realitybox--modal * {
   box-sizing: border-box;
 }
 
@@ -60,7 +63,7 @@
   left: 0;
   bottom: 0;
   padding: 0 1rem 1rem 1rem;
-  width: calc(100% - 2rem);
+  width: 100%;
   background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2));
   z-index: 2;
 }
@@ -304,6 +307,14 @@
 
 .h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div {
   margin-bottom: 0.5rem;
+}
+
+.h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div button.got-it {
+  background-color: #457bc1;
+}
+
+.h5p-realitybox--modal .viewer .tooltip--cta .tippy-content div button.got-it:hover {
+  background-color: #215ca8;
 }
 
 /* tippy.js dark theme */

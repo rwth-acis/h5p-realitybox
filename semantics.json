@@ -16,7 +16,9 @@
             "name": "file",
             "type": "file",
             "label": "Add a 3d object file",
-            "importance": "high"
+            "importance": "high",
+            "widget": "threeDModelLoader",
+            "preview": false
           }
         ]
       },
@@ -93,21 +95,42 @@
         "importance": "low",
         "fields": [
           {
-            "label": "General text",
-            "name": "welcomeText",
-            "type": "text",
-            "widget": "html",
-            "importance": "low"
-          },
-          {
-            "label": "Copyright",
-            "name": "copyright",
-            "type": "text",
-            "widget": "html",
+            "label": "Auto rotation",
+            "name": "autoRotation",
+            "type": "boolean",
+            "description": "Enable auto rotation of model view",
             "importance": "low"
           }
         ]
       }
+    ]
+  },
+  {
+    "label": "Description",
+    "name": "description",
+    "type": "text",
+    "widget": "html",
+    "importance": "low",
+    "optional": true,
+    "tags": [
+      "strong",
+      "em",
+      "sub",
+      "sup",
+      "u",
+      "s",
+      "strike",
+      "ul",
+      "ol",
+      "blockquote",
+      "a",
+      "table",
+      "hr",
+      "h2",
+      "h3",
+      "pre",
+      "code",
+      "p"
     ]
   }
 ]

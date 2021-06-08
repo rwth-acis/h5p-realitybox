@@ -9,10 +9,10 @@ const Aside = (function ($) {
    */
   function Aside($container, $content, engine) {
     H5P.EventDispatcher.call(this);
-    this.$el = $(`<aside>
+    this.$el = $(`<aside class="viewer--aside">
       <div class="aside--header">
-        <div class="title">Untitled</div>
-        <div>
+        <div class="item title aside--title">Untitled</div>
+        <div class="item">
           <button class="button trigger--close-aside">
             <i class="material-icons">close</i>
           </button>
@@ -26,6 +26,10 @@ const Aside = (function ($) {
     this._$content = $content;
     this._engine = engine;
     this.isShown = false;
+
+    this.$el.find('.trigger--close-aside').on('click', () => {
+      this.hide();
+    });
   }
 
   // extends H5P.EventDispatcher
@@ -41,7 +45,6 @@ const Aside = (function ($) {
       return;
     }
     this.isShown = true;
-
     this._resizeHandler = () => {
       if (!this.isShown) {
         this.$el.css({ right: -1 * this.$el.outerWidth() })
@@ -64,8 +67,13 @@ const Aside = (function ($) {
     $(window).off('resize', this._resizeHandler);
 
     this._animate();
+    this.trigger('close');
   }
 
+  /**
+   * Slides aside in
+   * @private
+   */
   Aside.prototype._animate = function () {
     const width = this.$el.outerWidth();
     if (this.isShown) {
@@ -77,7 +85,7 @@ const Aside = (function ($) {
         this.$el.removeClass('is-shown');
       }
     });
-    const paddingRight = 0;
+    let paddingRight = 0;
     if (this._$container.outerWidth() - width >= 550 && this.isShown) {
       paddingRight = width;
     }
@@ -92,6 +100,14 @@ const Aside = (function ($) {
         }
       }
     );
+  }
+
+  /**
+   * Set title of aside
+   * @param {string} title - Title to set
+   */
+  Aside.prototype.setTitle = function (title) {
+    this.$el.find('.aside--title').text(title);
   }
 
   return Aside;
