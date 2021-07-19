@@ -1,6 +1,3 @@
-**Important:** This is an draft and does not contain all information yet
-
-
 # H5P.RealityBox
 Set up 3D models and annotate them with H5P content
 
@@ -11,8 +8,12 @@ This content type consists of three libraries:
 - [H5PEditor.RealityBox](https://github.com/rwth-acis/h5p-editor-realitybox)
 - [H5PEditor.ThreeDModelLoader (modified, draft)](https://github.com/rwth-acis/h5p-editor-3d-model-loader)
 
-Additional dependencies must also installed in H5P:
-- H5P.KewArCode
+In addition, the following libraries must also be installed:
+- [H5P.KewArCode 0.2](https://github.com/otacke/h5p-kewar-code)
+- [H5P.DragNBar 1.5](https://github.com/h5p/h5p-drag-n-bar)
+- [H5P.Column 1.13](https://github.com/h5p/h5p-column)
+- [H5PEditor.Wizard 1.2](https://github.com/h5p/h5p-editor-wizard)
+- [FontAwesome 4.5](https://github.com/h5p/font-awesome)
 
 ## Changes for operation
 At this point in time, some minor changes need to be made to the core of H5P so that this module can be used without any problems.
@@ -90,7 +91,9 @@ npx webpack
 
 Note: It is important that all libraries to be packed into the H5P package are git repositories. Otherwise they will be ignored by h5p-cli.
 
+Use the [pack command](https://h5p.org/h5p-cli-guide#packcmd) of h5p-cli to bundle and compress all required libraries into a H5P package named realitybox.h5p:
+
 ```
-h5p pack [-r] H5P.RealityBox H5P.BabylonBox H5PEditor.RealityBox realitybox.h5p
+h5p pack [-r] H5P.RealityBox H5P.BabylonBox H5PEditor.RealityBox H5PEditor.ThreeDModelLoader realitybox.h5p
 ```
 
