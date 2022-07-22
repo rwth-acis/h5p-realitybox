@@ -26,13 +26,13 @@ const HEADER_ITEMS = [
     type: 'title',
     content: '<span style="transform:translateY(1px)">RealityBox</span>'
   },
-  {
+  /*{
     type: 'button',
     addClass: 'button icon trigger--toggle-rotation',
     tooltip: 'Toggle rotation',
     kbd: ['Space'],
     content: '<i class="material-icons">pause</i>'
-  },
+  },*/
   /*
   Button for switch in quiz mode
   {
@@ -45,15 +45,15 @@ const HEADER_ITEMS = [
       <div><i class="material-icons">help_outline</i></div>
     `
   }, */
-  {
+  /*{
     type: 'button',
     addClass: 'button dark trigger--vr',
     hide_tooltip: true,
     tooltip: 'Open on VR device',
     kbd: ['Alt', '.'],
     content: '<span class="transform:translate(0.5px)">VR</span>'
-  }/*,
-  {
+  },*/
+  /*{
     type: 'button',
     addClass: 'button icon',
     tooltip: 'Info',
@@ -284,10 +284,10 @@ const Viewer = (function ($) {
           btn = '.trigger--close'
         }
         else if (event.which === 32) { // Space
-          btn = '.trigger--toggle-rotation';
+          //btn = '.trigger--toggle-rotation';
         }
         else if (event.altKey && event.which === 190) { // Alt+.
-          btn = '.trigger--vr';
+          //btn = '.trigger--vr';
         }
         if (btn) {
           this.$el.find(btn).click();
