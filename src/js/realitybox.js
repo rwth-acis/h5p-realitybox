@@ -1,4 +1,3 @@
-import Data4Thesis from './data4thesis.js';
 import Preview from './preview.js';
 import Viewer from './viewer.js';
 
@@ -13,7 +12,7 @@ H5P.RealityBox = (function ($) {
 
     // Only for evaluation purposes (remove in production)
     // Create global Data4Thesis instance for evaluation
-    window.d4t = new Data4Thesis('https://ginkgo.informatik.rwth-aachen.de/ballmann/index.php');
+    //window.d4t = new Data4Thesis('https://ginkgo.informatik.rwth-aachen.de/ballmann/index.php');
 
     // Extend defaults with provided options
     this.options = options.realitybox;
@@ -83,7 +82,7 @@ H5P.RealityBox = (function ($) {
       this._viewer.$el.find('.trigger--vr').click();
 
       // only for evaluation
-      d4t.set('usedQuickHash', 1)
+      //d4t.set('usedQuickHash', 1)
     }
   }
 
