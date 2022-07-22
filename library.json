@@ -31,8 +31,8 @@
      },
      {
        "machineName": "H5P.KewArCode",
-       "majorVersion": 0,
-       "minorVersion": 2
+       "majorVersion": 1,
+       "minorVersion": 0
      }
   ],
   "editorDependencies": [

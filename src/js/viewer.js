@@ -357,9 +357,13 @@ const Viewer = (function ($) {
       this._babylonBox.on('annotation picked', ({ data }) => {
         if (this._babylonBox.webXR.inWebXR) {
           this.activeAnnotation = null;
-          this._babylonBox.guiLabel.show(
-            this.activeAnnotation.content.metadata.title
-          );
+
+          // Commented out to fix a bug, this.activeAnnotation is null
+          // Code is not needed by RealityboxCollab anyway
+
+          //this._babylonBox.guiLabel.show(
+            //this.activeAnnotation.content.metadata.title
+          //);
           return;
         }
         this.activeAnnotation = data;

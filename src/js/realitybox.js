@@ -35,7 +35,6 @@ H5P.RealityBox = (function ($) {
         $descriptionBox.html(this.description);
       }
 
-
       let modelUrl = H5P.getPath(this.options.model.path, this.id);
       let params = $.extend(
         {},

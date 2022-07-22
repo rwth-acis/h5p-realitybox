@@ -55,7 +55,7 @@ const VRPopup = (function ($) {
     this.popup = new Popup('', html, 500);
     this.$content = this.popup.$content;
     this._kewar = H5P.newRunnable({
-      library: 'H5P.KewArCode 0.2',
+      library: 'H5P.KewArCode 0.1.0',
       params: {
         codeType: 'url',
         url: this._url,

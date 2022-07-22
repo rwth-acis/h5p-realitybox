@@ -254,6 +254,7 @@
   border: none;
   border-radius: 50%;
   font-size: 17px;
+  color: #000;
 }
 
 .h5p-realitybox--modal .viewer .viewer--aside .aside--header .item  button:hover,
@@ -397,6 +398,7 @@ body.in-vr-mode {
   height: 30px;
   background: none;
   border: none;
+  color: #000;
 }
 
 .viewer--popup .header button.trigger--popup-close:hover,
@@ -423,6 +425,7 @@ body.in-vr-mode {
   border-right: none;
   cursor: pointer;
   border-radius: 0;
+  color: #000;
 }
 
 .viewer--popup .vr-popup--content .tab:hover, .tab:focus {
