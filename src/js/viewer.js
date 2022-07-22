@@ -94,7 +94,7 @@ const Viewer = (function ($) {
       this._babylonBox.engine.resize();
       this.isShown = true;
 
-      d4t.startTimer('timeInViewer');
+      //d4t.startTimer('timeInViewer');
     }
 
     /**
@@ -110,12 +110,12 @@ const Viewer = (function ($) {
       this.$el.detach();
       this.isShown = false;
 
-      d4t.stopTimer('timeInViewer');
-      d4t.showStarRating(
+      //d4t.stopTimer('timeInViewer');
+      /*d4t.showStarRating(
         'viewer',
         'https://limesurvey.com/abcxyz',
         'https://github.com/rwth-acis/h5p-realitybox'
-      );
+      );*/
     }
 
     /**
@@ -315,7 +315,7 @@ const Viewer = (function ($) {
           this.vrPopup = new VRPopup(uri + '#openViewer=' + this.id);
 
           this.vrPopup.on('start webxr', async ({ data }) => {
-            d4t.set('requestWebXR', 1);
+            //d4t.set('requestWebXR', 1);
 
             if (data.showAnnotations) {
               this._babylonBox.showAllAnnotations();
