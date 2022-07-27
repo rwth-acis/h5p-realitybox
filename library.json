@@ -10,7 +10,7 @@
   "machineName": "H5P.RealityBox",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 0
+    "minorVersion": 1
   },
   "embedTypes": ["div"],
   "preloadedJs": [
