@@ -26,13 +26,13 @@ const HEADER_ITEMS = [
     type: 'title',
     content: '<span style="transform:translateY(1px)">RealityBox</span>'
   },
-  /*{
+  {
     type: 'button',
     addClass: 'button icon trigger--toggle-rotation',
     tooltip: 'Toggle rotation',
     kbd: ['Space'],
     content: '<i class="material-icons">pause</i>'
-  },*/
+  },
   /*
   Button for switch in quiz mode
   {
@@ -47,20 +47,21 @@ const HEADER_ITEMS = [
   }, */
   /*{
     type: 'button',
-    addClass: 'button dark trigger--vr',
-    hide_tooltip: true,
-    tooltip: 'Open on VR device',
-    kbd: ['Alt', '.'],
-    content: '<span class="transform:translate(0.5px)">VR</span>'
-  },*/
-  /*{
-    type: 'button',
     addClass: 'button icon',
     tooltip: 'Info',
     kbd: ['Alt', '-'],
     content: '<i class="material-icons">info</i>'
   }*/
 ]
+
+const VR_BUTTON = {
+  type: 'button',
+  addClass: 'button dark trigger--vr',
+  hide_tooltip: true,
+  tooltip: 'Open on VR device',
+  kbd: ['Alt', '.'],
+  content: '<span class="transform:translate(0.5px)">VR</span>'
+};
 
 const Viewer = (function ($) {
 
@@ -70,11 +71,13 @@ const Viewer = (function ($) {
      * @param {jQuery} $container - Content container
      * @param {BabylonBox} babylonBox - BabylonBox instance
      * @param {string} id - ID of H5P.RealityBox instance
+     * @param {Object} options - The options for this Realitybox instance
      */
-    function Viewer($canvas, $container, babylonBox, id) {
+    function Viewer($canvas, $container, babylonBox, id, options) {
       this._$canvas = $canvas;
       this.$container = $container;
       this._babylonBox = babylonBox;
+      this.options = options;
       this.id = id;
       this.isShown = false;
       this.isAsideShown = false;
@@ -165,7 +168,7 @@ const Viewer = (function ($) {
         }
       });
 
-      this._createNav(HEADER_ITEMS);
+      this._createNav(this.options.hideVrButton ? HEADER_ITEMS : [...HEADER_ITEMS, VR_BUTTON]);
       this._initTooltips();
       this._initTrigger();
       this._setRotation(this._babylonBox.camera.autoRotationEnabled);

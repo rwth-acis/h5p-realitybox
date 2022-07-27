@@ -58,7 +58,8 @@ H5P.RealityBox = (function ($) {
         babylonBox.$canvas,
         $container,
         babylonBox,
-        this.id
+        this.id,
+        this.options
       );
 
       babylonBox.on('ready', () => {
