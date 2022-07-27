@@ -2,7 +2,7 @@
   "title": "RealityBox",
   "description": "Embed interactive virtual reality viewer",
   "majorVersion": 1,
-  "minorVersion": 0,
+  "minorVersion": 1,
   "patchVersion": 0,
   "runnable": 1,
   "author": "Johannes Ballmann",
@@ -10,7 +10,7 @@
   "machineName": "H5P.RealityBox",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 1
+    "minorVersion": 0
   },
   "embedTypes": ["div"],
   "preloadedJs": [
