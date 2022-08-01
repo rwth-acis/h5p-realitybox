@@ -24,7 +24,7 @@ const HEADER_ITEMS = [
   },
   {
     type: 'title',
-    content: '<span style="transform:translateY(1px)">RealityBox</span>'
+    content: '<span style="transform:translateY(1px)" id="mainTitle">RealityBox</span>'
   },
   {
     type: 'button',
